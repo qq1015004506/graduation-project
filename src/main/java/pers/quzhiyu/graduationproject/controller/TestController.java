@@ -3,6 +3,7 @@ package pers.quzhiyu.graduationproject.controller;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import pers.quzhiyu.graduationproject.domain.Coder;
 import pers.quzhiyu.graduationproject.dto.CoderQueryCondition;
@@ -42,5 +43,26 @@ public class TestController {
         return coder;
     }
 
+    @PutMapping("/coder/{id:\\d+}")
+    public Coder updateCoder(@RequestBody Coder coder, BindingResult errors){
 
+        if(errors.hasErrors()) {
+            errors.getAllErrors().stream().forEach(error -> {
+                FieldError fieldError = (FieldError) error;
+                String message = fieldError.getField() + " " + fieldError.getDefaultMessage();
+                System.out.println(message);
+            });
+        }
+
+        System.out.println(coder);
+
+        return coder;
+    }
+
+    @DeleteMapping("/coder/{id:\\d+}")
+    public void deleteCoder(@PathVariable Integer id){
+
+
+        System.out.println(id);
+    }
 }
