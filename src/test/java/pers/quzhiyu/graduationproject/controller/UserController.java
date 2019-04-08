@@ -1,5 +1,6 @@
 package pers.quzhiyu.graduationproject.controller;
 
+import org.apache.ibatis.jdbc.SQL;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +14,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import pers.quzhiyu.graduationproject.dto.GroupInfo;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -44,20 +50,20 @@ public class UserController {
 
     @Test
     public void whenGetInfoByIdSuccess() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/user/coder/2")
+        mockMvc.perform(MockMvcRequestBuilders.get("/staff/4")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(3));
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
     public void whenCreateSuccess() throws Exception {
-        String content = "{\"username\":\"tom\",\"password\":null}";
-        mockMvc.perform(MockMvcRequestBuilders.post("/user/coder")
+        String content = "{\"username\":\"tom\",\"password\":\"123123\"," +
+                "\"name\":\"屈治宇\",\"job\":\"1\",\"email\":\"1015004506@qq.com\",\"phone\":\"15076022053\"}";
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/staff")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(content))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(4));
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
@@ -83,6 +89,21 @@ public class UserController {
         mockMvc.perform(MockMvcRequestBuilders.fileUpload("/file")
                 .file(new MockMultipartFile("file","test.txt","multipart/form-data","hello upload".getBytes())))
                 .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    public void test(){
+        List<Long> arr = Arrays.asList(1L,2L,3L,4L,5L);
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("INSERT INTO `groupinfo`\n");
+        sb.append("(group_id, staff_id)\n");
+        sb.append("VALUES\n");
+        for(Long l : arr) {
+            sb.append("(" + "1" + ", " + l.toString() + "), ");
+        }
+        System.out.println(sb.subSequence(0,sb.length()-2).toString());
+
     }
 
 }

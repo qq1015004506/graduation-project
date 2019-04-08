@@ -6,10 +6,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import pers.quzhiyu.graduationproject.domain.Coder;
+import pers.quzhiyu.graduationproject.domain.Staff;
 import pers.quzhiyu.graduationproject.dto.CoderQueryCondition;
 import pers.quzhiyu.graduationproject.service.CoderService;
+import pers.quzhiyu.graduationproject.service.StaffService;
 
-import javax.validation.Valid;
 import java.util.List;
 
 
@@ -20,10 +21,18 @@ public class TestController {
     @Autowired
     CoderService coderService;
 
+    @Autowired
+    StaffService staffService;
+
     @GetMapping("/coder")
     public List<Coder> getCoder(CoderQueryCondition condition){
         PageHelper.startPage(condition.getPage(),condition.getSize(),condition.getSort());
         return coderService.findAllCoder();
+    }
+
+    @GetMapping("/{id:\\d+}")
+    public Staff findStaffById(@PathVariable Long id) {
+        return staffService.findStaffById(id);
     }
 
     @GetMapping("/coder/{id:\\d+}")
@@ -31,16 +40,9 @@ public class TestController {
         return coderService.findCoderById(id);
     }
 
-    @PostMapping("/coder")
-    public Coder createCoder(@Valid @RequestBody Coder coder, BindingResult errors){
-
-        if(errors.hasErrors()) {
-            errors.getAllErrors().stream().forEach(error -> System.out.println(error.getDefaultMessage()));
-        }
-
-        System.out.println(coder);
-        coder.setId(4);
-        return coder;
+    @PostMapping()
+    public int createCoder(@RequestBody Staff staff){
+        return staffService.insertStaff(staff);
     }
 
     @PutMapping("/coder/{id:\\d+}")

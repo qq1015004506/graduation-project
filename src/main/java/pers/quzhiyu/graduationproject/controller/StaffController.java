@@ -8,15 +8,14 @@ import pers.quzhiyu.graduationproject.service.StaffService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/sdf")
+@RequestMapping("/staff")
 public class StaffController {
-
     @Autowired
-    private StaffService staffService;
+    StaffService staffService;
 
-    @GetMapping("/{id:\\d+}")
-    public Staff findStaffById(@PathVariable Long id) {
-        return staffService.findStaffById(id);
+    @PostMapping
+    public int createStaff(@RequestBody Staff staff) {
+        return staffService.insertStaff(staff);
     }
 
     @GetMapping()
@@ -24,9 +23,22 @@ public class StaffController {
         return staffService.findAllStaff();
     }
 
-    @PostMapping()
-    public int createStaff(@RequestBody Staff staff) {
-        return staffService.insertStaff(staff);
+    @GetMapping("/coder")
+    public List<Staff> findAllCoder() {
+        return staffService.findAllCoder();
+    }
+    @GetMapping("/manager")
+    public List<Staff> findAllManager() {
+        return staffService.findAllManager();
+    }
+    @GetMapping("/tester")
+    public List<Staff> findAllTester() {
+        return staffService.findAllTester();
+    }
+
+    @GetMapping("/{id:\\d+}")
+    public Staff findStaffById(@PathVariable Long id) {
+        return staffService.findStaffById(id);
     }
 
     @PutMapping()
@@ -35,7 +47,7 @@ public class StaffController {
     }
 
     @DeleteMapping("/{id:\\d+}")
-    public int deleteStaffById(@PathVariable Long id) {
+    public int deleteStaff(@PathVariable Long id) {
         return staffService.deleteStaffById(id);
     }
 }
