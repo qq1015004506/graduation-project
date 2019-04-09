@@ -4,13 +4,15 @@ import lombok.Data;
 
 @Data
 public class Task {
-  private long id;
+  private Long id;
   private String name;
-  private long fatherId;
+  //父节点id
+  private Long fatherId;
   private String description;
   private java.sql.Timestamp startTime;
   private java.sql.Timestamp endTime;
-  private long quantity;
+  //工作量
+  private Long quantity;
   private String filePath;
-  private long stage;
+  private Long stage;
 }

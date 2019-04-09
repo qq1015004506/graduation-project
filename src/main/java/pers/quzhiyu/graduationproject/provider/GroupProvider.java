@@ -2,7 +2,6 @@ package pers.quzhiyu.graduationproject.provider;
 
 import org.apache.ibatis.jdbc.SQL;
 import pers.quzhiyu.graduationproject.domain.Group;
-import pers.quzhiyu.graduationproject.dto.GroupInfo;
 
 import java.util.List;
 
@@ -33,5 +32,15 @@ public class GroupProvider {
             sb.append("(" + id + ", " + mid + "), ");
         }
         return sb.subSequence(0,sb.length()-2).toString();
+    }
+
+    public String deleteMemberFromGroup(Long id, List<Long> ids) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("DELETE FROM `groupinfo`\n");
+        sb.append("WHERE `group_id` = " + id + " AND `staff_id` IN (");
+        for (Long i : ids) {
+            sb.append(i+",");
+        }
+        return sb.subSequence(0,sb.length()-1).toString() + ")";
     }
 }

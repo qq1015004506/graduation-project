@@ -3,7 +3,6 @@ package pers.quzhiyu.graduationproject.mapper;
 import org.apache.ibatis.annotations.*;
 import pers.quzhiyu.graduationproject.domain.Group;
 import pers.quzhiyu.graduationproject.domain.Staff;
-import pers.quzhiyu.graduationproject.dto.GroupInfo;
 import pers.quzhiyu.graduationproject.provider.GroupProvider;
 
 import java.util.List;
@@ -36,4 +35,8 @@ public interface GroupMapper {
 
     @InsertProvider(type = GroupProvider.class,method = "addMemberToGroup")
     int addMemberToGroup(Long id, List<Long> groupMember);
+
+
+    @DeleteProvider(type = GroupProvider.class,method = "deleteMemberFromGroup")
+    int deleteMemberFromGroup(Long id, List<Long> ids);
 }

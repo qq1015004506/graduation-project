@@ -1,14 +1,19 @@
 package pers.quzhiyu.graduationproject.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pers.quzhiyu.graduationproject.domain.Staff;
 import pers.quzhiyu.graduationproject.service.StaffService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/staff")
+@CrossOrigin
 public class StaffController {
     @Autowired
     StaffService staffService;
@@ -19,8 +24,16 @@ public class StaffController {
     }
 
     @GetMapping()
-    public List<Staff> findAllStaff(){
-        return staffService.findAllStaff();
+    public Map<String,Object> findAllStaff(@RequestParam(value = "current",defaultValue = "1")int current,
+                                    @RequestParam(value = "size",defaultValue = "10")int size){
+        PageHelper.startPage(current,size);
+        List<Staff> allStaff = staffService.findAllStaff();
+        PageInfo<Staff> pageInfo = new PageInfo<>(allStaff);
+        Map<String,Object> data = new HashMap<>();
+        data.put("total",pageInfo.getTotal());//总条数
+        data.put("current",current);//当前页
+        data.put("data",pageInfo.getList());//数据
+        return data;
     }
 
     @GetMapping("/coder")

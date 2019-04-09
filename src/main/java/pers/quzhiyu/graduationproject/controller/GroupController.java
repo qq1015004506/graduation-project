@@ -13,6 +13,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/group")
+@CrossOrigin
 public class GroupController {
     @Autowired
     GroupService groupService;
@@ -28,21 +29,16 @@ public class GroupController {
     }
 
     @PostMapping("/{id:\\d+}/member")
-    @CrossOrigin
-    public int AddMemberToGroup(@PathVariable Long id, @RequestBody List<Long>  groupMember) {
-        System.out.println(groupMember);
-        System.out.println(id);
-        return 1;
-//        return groupService.addMemberToGroup(id,groupMember);
+    public int addMemberToGroup(@PathVariable Long id, @RequestBody List<Long>  groupMember) {
+        return groupService.addMemberToGroup(id,groupMember);
     }
 
-    @GetMapping("/test")
-    public Map<String, List> hehe() {
-        Map<String,List> res = new HashMap<>();
-        List<Integer> arr = Arrays.asList(1,2,3,4,5);
-        res.put("data",arr);
-        return res;
+    @DeleteMapping("/{id:\\d+}/member/{ids}")
+    public int deleteMemberFromGroup(@PathVariable Long id, @PathVariable List<Long>  ids) {
+
+        return groupService.deleteMemberFromGroup(id,ids);
     }
+
 
     @GetMapping()
     public List<Group> findAllGroup() {

@@ -13,9 +13,12 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class GroupControllerTest {
+public class CodeControllerTest {
     @Autowired
     private WebApplicationContext wac;
 
@@ -28,10 +31,18 @@ public class GroupControllerTest {
 
     @Test
     public void whenCreateSuccess() throws Exception {
-        String content = "{\"name\":\"jack\",\"leaderId\":\"6\"," +
-                "\"info\":\"YYY小组，组长是YYY\"}";
+        LocalDateTime date = LocalDateTime.now();
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/group")
+        String content = "{\"filename\":\"b.txt\"," +
+                "\"uploadTime\":"+date.toInstant(ZoneOffset.ofHours(8)).toEpochMilli()+","+
+                "\"staffId\":2," +
+                "\"groupId\":2," +
+                "\"commit\":\"增加了XXX功能\","+
+                "\"version\":1}";
+
+        System.out.println(content);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/code")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(content))
                 .andExpect(MockMvcResultMatchers.status().isOk());
@@ -39,7 +50,7 @@ public class GroupControllerTest {
 
     @Test
     public void whenGetInfoByIdSuccess() throws Exception {
-        String content = mockMvc.perform(MockMvcRequestBuilders.get("/group/1")
+        String content = mockMvc.perform(MockMvcRequestBuilders.get("/code/1")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn().getResponse().getContentAsString();
@@ -48,7 +59,7 @@ public class GroupControllerTest {
 
     @Test
     public void whenGetAllInfoSuccess() throws Exception {
-        String result = mockMvc.perform(MockMvcRequestBuilders.get("/group")
+        String result = mockMvc.perform(MockMvcRequestBuilders.get("/code")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn().getResponse().getContentAsString();
@@ -57,9 +68,16 @@ public class GroupControllerTest {
 
     @Test
     public void whenUpdateSuccess() throws Exception {
-        String content = "{\"id\":\"2\",\"name\":\"呵呵\",\"leaderId\":\"7\",\"info\":\"ZZZ小组，ZZZ\"}";
+        LocalDateTime date = LocalDateTime.now();
+        String content = "{\"id\":\"2\"," +
+                "\"filename\":\"c.txt\"," +
+                "\"uploadTime\":"+date.toInstant(ZoneOffset.ofHours(8)).toEpochMilli()+","+
+                "\"staffId\":2," +
+                "\"groupId\":3," +
+                "\"commit\":\"增加了YYY功能\","+
+                "\"version\":1}";
 
-        String result = mockMvc.perform(MockMvcRequestBuilders.put("/group")
+        String result = mockMvc.perform(MockMvcRequestBuilders.put("/code")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(content))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -69,7 +87,7 @@ public class GroupControllerTest {
 
     @Test
     public void whenDeleteSuccess() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete("/group/3")
+        mockMvc.perform(MockMvcRequestBuilders.delete("/code/3")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
@@ -78,7 +96,7 @@ public class GroupControllerTest {
     public void whenAddMemberSuccess() throws Exception {
         String content = "[1,2,3,4,5]";
 
-        String result = mockMvc.perform(MockMvcRequestBuilders.post("/group/2/member")
+        String result = mockMvc.perform(MockMvcRequestBuilders.post("/code/2/member")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(content))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -89,7 +107,7 @@ public class GroupControllerTest {
     @Test
     public void whenDeleteMemberSuccess() throws Exception {
 
-        String result = mockMvc.perform(MockMvcRequestBuilders.delete("/group/2/member/1,2,3,4,5")
+        String result = mockMvc.perform(MockMvcRequestBuilders.delete("/code/2/member/1,2,3,4,5")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn().getResponse().getContentAsString();

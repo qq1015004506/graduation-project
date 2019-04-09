@@ -51,5 +51,10 @@ public class GroupServiceImpl implements GroupService {
         return groupMapper.addMemberToGroup(id,groupMember);
     }
 
+    @Override
+    public int deleteMemberFromGroup(Long id, List<Long> ids) {
+        return groupMapper.deleteMemberFromGroup(id,ids);
+    }
+
 
 }

@@ -22,4 +22,6 @@ public interface GroupService {
     List<Staff> findMemberByGroupId(Long id);
 
     int addMemberToGroup(Long id, List<Long> groupMember);
+
+    int deleteMemberFromGroup(Long id, List<Long> ids);
 }
