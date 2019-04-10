@@ -3,6 +3,7 @@ package pers.quzhiyu.graduationproject.mapper;
 import org.apache.ibatis.annotations.*;
 import pers.quzhiyu.graduationproject.domain.Group;
 import pers.quzhiyu.graduationproject.domain.Staff;
+import pers.quzhiyu.graduationproject.dto.GroupStaff;
 import pers.quzhiyu.graduationproject.provider.GroupProvider;
 
 import java.util.List;
@@ -39,4 +40,8 @@ public interface GroupMapper {
 
     @DeleteProvider(type = GroupProvider.class,method = "deleteMemberFromGroup")
     int deleteMemberFromGroup(Long id, List<Long> ids);
+
+    @Select("SELECT s.*,c.name groupName\n" +
+            "FROM staff s LEFT JOIN (SELECT * FROM `group` g, groupinfo gi WHERE g.id = gi.group_id) c ON s.id = c.staff_id")
+    List<GroupStaff> findAllGroupStaff();
 }

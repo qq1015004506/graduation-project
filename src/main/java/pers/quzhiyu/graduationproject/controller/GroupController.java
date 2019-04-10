@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pers.quzhiyu.graduationproject.domain.Group;
 import pers.quzhiyu.graduationproject.domain.Staff;
+import pers.quzhiyu.graduationproject.dto.GroupStaff;
 import pers.quzhiyu.graduationproject.service.GroupService;
 
 import java.util.Arrays;
@@ -43,6 +44,11 @@ public class GroupController {
     @GetMapping()
     public List<Group> findAllGroup() {
         return groupService.findAllGroup();
+    }
+
+    @GetMapping("/staff")
+    public List<GroupStaff> findAllGroupStaff(){
+        return groupService.findAllGroupStaff();
     }
 
     @PostMapping()

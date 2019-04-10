@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import pers.quzhiyu.graduationproject.domain.Group;
 import pers.quzhiyu.graduationproject.domain.Staff;
 import pers.quzhiyu.graduationproject.dto.GroupInfo;
+import pers.quzhiyu.graduationproject.dto.GroupStaff;
 
 import java.util.List;
 
@@ -24,4 +25,6 @@ public interface GroupService {
     int addMemberToGroup(Long id, List<Long> groupMember);
 
     int deleteMemberFromGroup(Long id, List<Long> ids);
+
+    List<GroupStaff> findAllGroupStaff();
 }

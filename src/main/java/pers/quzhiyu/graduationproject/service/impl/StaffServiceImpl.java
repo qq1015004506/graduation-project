@@ -39,17 +39,14 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public List<Staff> findAllCoder() {
-        return staffMapper.findAllCoder();
+    public List<Staff> queryStaff(String name, Long job) {
+        if(name != null && job != null)
+            return staffMapper.queryStaff(name,job);
+        if(job != null)
+            return staffMapper.queryStaffByJob(job);
+        if(name != null)
+            return staffMapper.queryStaffByName(name);
+        return staffMapper.findAll();
     }
 
-    @Override
-    public List<Staff> findAllManager() {
-        return staffMapper.findAllManager();
-    }
-
-    @Override
-    public List<Staff> findAllTester() {
-        return staffMapper.findAllTester();
-    }
 }

@@ -36,17 +36,18 @@ public class StaffController {
         return data;
     }
 
-    @GetMapping("/coder")
-    public List<Staff> findAllCoder() {
-        return staffService.findAllCoder();
-    }
-    @GetMapping("/manager")
-    public List<Staff> findAllManager() {
-        return staffService.findAllManager();
-    }
-    @GetMapping("/tester")
-    public List<Staff> findAllTester() {
-        return staffService.findAllTester();
+    @GetMapping("/query")
+    public Map<String,Object> queryStaff(Long job, String name,
+                                    @RequestParam(value = "current",defaultValue = "1")int current,
+                                    @RequestParam(value = "size",defaultValue = "10")int size) {
+        PageHelper.startPage(current,size);
+        List<Staff> staff = staffService.queryStaff(name, job);
+        PageInfo<Staff> pageInfo = new PageInfo<>(staff);
+        Map<String,Object> data = new HashMap<>();
+        data.put("total",pageInfo.getTotal());//总条数
+        data.put("current",current);//当前页
+        data.put("data",pageInfo.getList());//数据
+        return data;
     }
 
     @GetMapping("/{id:\\d+}")

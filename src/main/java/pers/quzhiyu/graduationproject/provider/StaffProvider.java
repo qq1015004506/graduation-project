@@ -5,6 +5,20 @@ import pers.quzhiyu.graduationproject.domain.Staff;
 
 public class StaffProvider {
 
+    public String queryStaff(String name,Long job) {
+        return new SQL(){
+            {
+                SELECT("*");
+                FROM("staff");
+                if(name != null)
+                    WHERE("name like '%${name}%'");
+                AND();
+                if(job != null)
+                    WHERE("job = #{job}");
+            }
+        }.toString();
+    }
+
     public String updateStaff(final Staff staff) {
         return new SQL(){
             {

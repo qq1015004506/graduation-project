@@ -96,4 +96,15 @@ public class GroupControllerTest {
 
         System.out.println(result);
     }
+
+    @Test
+    public void whenFindAllGroupStaffSuccess() throws Exception {
+
+        String result = mockMvc.perform(MockMvcRequestBuilders.get("/group/staff")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        System.out.println(result);
+    }
 }

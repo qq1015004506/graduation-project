@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pers.quzhiyu.graduationproject.domain.Group;
 import pers.quzhiyu.graduationproject.domain.Staff;
 import pers.quzhiyu.graduationproject.dto.GroupInfo;
+import pers.quzhiyu.graduationproject.dto.GroupStaff;
 import pers.quzhiyu.graduationproject.mapper.GroupMapper;
 import pers.quzhiyu.graduationproject.service.GroupService;
 
@@ -54,6 +55,11 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public int deleteMemberFromGroup(Long id, List<Long> ids) {
         return groupMapper.deleteMemberFromGroup(id,ids);
+    }
+
+    @Override
+    public List<GroupStaff> findAllGroupStaff() {
+        return groupMapper.findAllGroupStaff();
     }
 
 

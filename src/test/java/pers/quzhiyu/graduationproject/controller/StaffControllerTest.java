@@ -38,30 +38,20 @@ public class StaffControllerTest {
     }
 
     @Test
-    public void whenGetInfoByIdSuccess() throws Exception {
+    public void whenQuerySuccess() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/staff/4")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
-
     @Test
-    public void whenGetAllJobInfoSuccess() throws Exception {
-        String result = mockMvc.perform(MockMvcRequestBuilders.get("/staff/manager")
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andReturn().getResponse().getContentAsString();
-        System.out.println(result);
-        result = mockMvc.perform(MockMvcRequestBuilders.get("/staff/coder")
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andReturn().getResponse().getContentAsString();
-        System.out.println(result);
-        result = mockMvc.perform(MockMvcRequestBuilders.get("/staff/tester")
+    public void whenGetInfoByIdSuccess() throws Exception {
+        String result = mockMvc.perform(MockMvcRequestBuilders.get("/staff/query")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn().getResponse().getContentAsString();
         System.out.println(result);
     }
+
 
     @Test
     public void whenGetAllInfoSuccess() throws Exception {

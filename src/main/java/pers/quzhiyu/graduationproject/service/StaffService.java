@@ -15,9 +15,6 @@ public interface StaffService {
 
     int insertStaff(Staff staff);
 
-    List<Staff> findAllCoder();
 
-    List<Staff> findAllManager();
-
-    List<Staff> findAllTester();
+    List<Staff> queryStaff(String name, Long job);
 }

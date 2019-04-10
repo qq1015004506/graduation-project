@@ -35,4 +35,11 @@ public interface StaffMapper {
     @Delete("DELETE FROM `staff` WHERE id = #{id}")
     int deleteStaffById(@Param("id") Long id);
 
+    @Select("SELECT * FROM `staff` WHERE job = #{job} and name like '%${name}%'")
+    List<Staff> queryStaff(@Param("name") String name, @Param("job") Long job);
+
+    @Select("SELECT * FROM `staff` WHERE job = #{job}")
+    List<Staff> queryStaffByJob(@Param("job") Long job);
+    @Select("SELECT * FROM `staff` WHERE name like '%${name}%'")
+    List<Staff> queryStaffByName(@Param("name") String name);
 }
