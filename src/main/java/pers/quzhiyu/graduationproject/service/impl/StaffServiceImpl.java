@@ -49,4 +49,9 @@ public class StaffServiceImpl implements StaffService {
         return staffMapper.findAll();
     }
 
+    @Override
+    public int changeStaffsGroup(List<Staff> staffs,Long newId) {
+        return staffMapper.changeStaffsGroup(staffs,newId);
+    }
+
 }

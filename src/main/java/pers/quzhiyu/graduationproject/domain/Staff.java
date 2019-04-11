@@ -10,11 +10,11 @@ import javax.validation.constraints.NotBlank;
 public class Staff {
   @NotBlank(message = "值不能为空")
   private Long id;
-
   private String username;
   private String password;
   private String name;
   private Long job;
   private String email;
   private String phone;
+  private Long groupId;
 }

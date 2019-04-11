@@ -18,7 +18,7 @@ public class GroupServiceImpl implements GroupService {
     GroupMapper groupMapper;
 
     @Override
-    public List<Group> findAllGroup() {
+    public List<GroupInfo> findAllGroup() {
         return groupMapper.findAllGroup();
     }
 

@@ -13,22 +13,14 @@ public interface StaffMapper {
     @Select("SELECT * FROM `staff` WHERE id=#{id}")
     Staff findStaffById(@Param("id") Long id);
 
-    @Select("SELECT * FROM `staff` WHERE job = 1")
-    List<Staff> findAllManager();
-
-    @Select("SELECT * FROM `staff` WHERE job = 2")
-    List<Staff> findAllCoder();
-
-    @Select("SELECT * FROM `staff` WHERE job = 3")
-    List<Staff> findAllTester();
 
     @UpdateProvider(type = StaffProvider.class,method = "updateStaff")
     int updateStaff(final Staff staff);
 
     @Insert("INSERT INTO `staff` " +
-            "(`username`,`password`,`name`,`job`,`email`,`phone`) " +
+            "(`username`,`password`,`name`,`job`,`email`,`phone`,`group_id`) " +
             "VALUES" +
-            "(#{username},#{password},#{name},#{job},#{email},#{phone})")
+            "(#{username},#{password},#{name},#{job},#{email},#{phone},#{group_id})")
     @Options(useGeneratedKeys = true,keyProperty = "id",keyColumn = "id")
     int insertStaff(Staff staff);
 
@@ -37,9 +29,11 @@ public interface StaffMapper {
 
     @Select("SELECT * FROM `staff` WHERE job = #{job} and name like '%${name}%'")
     List<Staff> queryStaff(@Param("name") String name, @Param("job") Long job);
-
     @Select("SELECT * FROM `staff` WHERE job = #{job}")
     List<Staff> queryStaffByJob(@Param("job") Long job);
     @Select("SELECT * FROM `staff` WHERE name like '%${name}%'")
     List<Staff> queryStaffByName(@Param("name") String name);
+
+    @UpdateProvider(type = StaffProvider.class, method = "changeStaffsGroup")
+    int changeStaffsGroup(List<Staff> staffs,Long newId);
 }

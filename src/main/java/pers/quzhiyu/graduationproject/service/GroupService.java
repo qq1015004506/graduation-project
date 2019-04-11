@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 public interface GroupService {
-    List<Group> findAllGroup();
+    List<GroupInfo> findAllGroup();
 
     Group findGroupById(Long id);
 

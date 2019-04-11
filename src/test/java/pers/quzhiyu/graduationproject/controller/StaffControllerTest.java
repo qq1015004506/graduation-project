@@ -64,8 +64,9 @@ public class StaffControllerTest {
 
     @Test
     public void whenUpdateSuccess() throws Exception {
-        String content = "{\"id\":\"4\",\"username\":\"curry\",\"password\":\"666666\"," +
-                "\"name\":\"刘飞翔\",\"job\":\"2\",\"email\":\"898121@qq.com\",\"phone\":\"15066678921\"}";
+        String content = "{\"id\":\"4\",\"username\":\"liufeixiang\",\"password\":\"liufeixiang\"," +
+                "\"name\":\"刘飞翔\",\"job\":\"2\",\"email\":\"898s2121@qq.com\"," +
+                "\"phone\":\"15066678921\",\"groupId\":1}";
 
         String result = mockMvc.perform(MockMvcRequestBuilders.put("/staff")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)

@@ -1,11 +1,14 @@
 package pers.quzhiyu.graduationproject.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import pers.quzhiyu.graduationproject.domain.Group;
 import pers.quzhiyu.graduationproject.domain.Staff;
+import pers.quzhiyu.graduationproject.dto.GroupInfo;
 import pers.quzhiyu.graduationproject.dto.GroupStaff;
 import pers.quzhiyu.graduationproject.service.GroupService;
+import pers.quzhiyu.graduationproject.service.StaffService;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -18,20 +21,12 @@ import java.util.Map;
 public class GroupController {
     @Autowired
     GroupService groupService;
+    @Autowired
+    StaffService staffService;
 
     @GetMapping("/{id:\\d+}")
     public Group findGroupById(@PathVariable Long id) {
         return groupService.findGroupById(id);
-    }
-
-    @GetMapping("/{id:\\d+}/member")
-    public List<Staff> findMemberByGroupId(@PathVariable Long id) {
-        return groupService.findMemberByGroupId(id);
-    }
-
-    @PostMapping("/{id:\\d+}/member")
-    public int addMemberToGroup(@PathVariable Long id, @RequestBody List<Long>  groupMember) {
-        return groupService.addMemberToGroup(id,groupMember);
     }
 
     @DeleteMapping("/{id:\\d+}/member/{ids}")
@@ -42,7 +37,7 @@ public class GroupController {
 
 
     @GetMapping()
-    public List<Group> findAllGroup() {
+    public List<GroupInfo> findAllGroup() {
         return groupService.findAllGroup();
     }
 
@@ -52,8 +47,11 @@ public class GroupController {
     }
 
     @PostMapping()
-    public int CreateGroup(@RequestBody Group group) {
-        return groupService.insertGroup(group);
+    @Transactional
+    public int CreateGroup(@RequestBody GroupInfo groupInfo) {
+        groupService.insertGroup(groupInfo);
+        staffService.changeStaffsGroup(groupInfo.getStaffs(),groupInfo.getId());
+        return 1;
     }
 
     @PutMapping()
