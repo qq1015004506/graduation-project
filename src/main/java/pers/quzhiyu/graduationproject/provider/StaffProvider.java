@@ -7,6 +7,7 @@ import java.util.List;
 
 public class StaffProvider {
 
+
     public String changeStaffsGroup(List<Staff> staffs,Long newId) {
         StringBuilder res = new StringBuilder();
         res.append("REPLACE INTO `staff` (`id`,`username`,`password`,`name`,`job`,`email`,`phone`,`group_id`) VALUES ");

@@ -36,4 +36,8 @@ public interface StaffMapper {
 
     @UpdateProvider(type = StaffProvider.class, method = "changeStaffsGroup")
     int changeStaffsGroup(List<Staff> staffs,Long newId);
+
+
+    @Select("SELECT * FROM `staff` WHERE group_id = #{group}")
+    List<Staff> findAllStaffByGroupId(Long group);
 }

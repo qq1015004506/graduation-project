@@ -15,4 +15,6 @@ public class Task {
   private Long quantity;
   private String filePath;
   private Long stage;
+  private Long staffId;
+  private Long groupId;
 }

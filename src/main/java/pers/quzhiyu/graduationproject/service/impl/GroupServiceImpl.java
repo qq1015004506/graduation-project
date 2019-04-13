@@ -2,11 +2,14 @@ package pers.quzhiyu.graduationproject.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pers.quzhiyu.graduationproject.domain.Group;
 import pers.quzhiyu.graduationproject.domain.Staff;
+import pers.quzhiyu.graduationproject.dto.GroupCount;
 import pers.quzhiyu.graduationproject.dto.GroupInfo;
 import pers.quzhiyu.graduationproject.dto.GroupStaff;
 import pers.quzhiyu.graduationproject.mapper.GroupMapper;
+import pers.quzhiyu.graduationproject.mapper.StaffMapper;
 import pers.quzhiyu.graduationproject.service.GroupService;
 
 import java.util.List;
@@ -17,49 +20,52 @@ public class GroupServiceImpl implements GroupService {
     @Autowired
     GroupMapper groupMapper;
 
+    @Autowired
+    StaffMapper staffMapper;
+
     @Override
     public List<GroupInfo> findAllGroup() {
         return groupMapper.findAllGroup();
     }
 
     @Override
-    public Group findGroupById(Long id) {
+    public GroupInfo findGroupById(Long id) {
         return groupMapper.findGroupById(id);
     }
 
     @Override
-    public int updateGroup(Group group) {
-        return groupMapper.updateGroup(group);
+    @Transactional
+    public int updateGroup(GroupInfo groupInfo) {
+        groupMapper.cleanGroupInfoById(groupInfo.getId());
+        staffMapper.changeStaffsGroup(groupInfo.getStaffs(),groupInfo.getId());
+        return groupMapper.updateGroup(groupInfo);
     }
 
     @Override
-    public int insertGroup(Group group) {
-        return groupMapper.insertGroup(group);
+    @Transactional
+    public int insertGroup(GroupInfo group) {
+        //顺序不能变,因为先插入组才能获得新组的id
+        groupMapper.insertGroup(group);
+        staffMapper.changeStaffsGroup(group.getStaffs(),group.getId());
+        return 1;
     }
 
     @Override
+    @Transactional
     public int deleteGroupById(Long id) {
+        groupMapper.cleanGroupInfoById(id);
         return groupMapper.deleteGroupById(id);
     }
 
-    @Override
-    public List<Staff> findMemberByGroupId(Long id) {
-        return groupMapper.findMemberByGroupId(id);
-    }
-
-    @Override
-    public int addMemberToGroup(Long id, List<Long> groupMember) {
-        return groupMapper.addMemberToGroup(id,groupMember);
-    }
-
-    @Override
-    public int deleteMemberFromGroup(Long id, List<Long> ids) {
-        return groupMapper.deleteMemberFromGroup(id,ids);
-    }
 
     @Override
     public List<GroupStaff> findAllGroupStaff() {
         return groupMapper.findAllGroupStaff();
+    }
+
+    @Override
+    public List<GroupCount> findAllGroupCount() {
+        return groupMapper.findAllGroupCount();
     }
 
 

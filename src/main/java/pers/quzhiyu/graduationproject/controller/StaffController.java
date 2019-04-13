@@ -50,6 +50,11 @@ public class StaffController {
         return data;
     }
 
+    @GetMapping("/group/{group:\\d+}")
+    public List<Staff> findAllStaffByGroupId(@PathVariable Long group) {
+        return staffService.findAllStaffByGroupId(group);
+    }
+
     @GetMapping("/{id:\\d+}")
     public Staff findStaffById(@PathVariable Long id) {
         return staffService.findStaffById(id);

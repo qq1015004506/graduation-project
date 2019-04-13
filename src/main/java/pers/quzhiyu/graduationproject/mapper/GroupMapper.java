@@ -3,6 +3,7 @@ package pers.quzhiyu.graduationproject.mapper;
 import org.apache.ibatis.annotations.*;
 import pers.quzhiyu.graduationproject.domain.Group;
 import pers.quzhiyu.graduationproject.domain.Staff;
+import pers.quzhiyu.graduationproject.dto.GroupCount;
 import pers.quzhiyu.graduationproject.dto.GroupInfo;
 import pers.quzhiyu.graduationproject.dto.GroupStaff;
 import pers.quzhiyu.graduationproject.provider.GroupProvider;
@@ -26,7 +27,15 @@ public interface GroupMapper {
     List<Staff> findStaffs(Long gid);
 
     @Select("SELECT * FROM `group` WHERE id=#{id}")
-    Group findGroupById(@Param("id") Long id);
+    @Results({
+        @Result(id = true,property = "id",column = "id"),
+        @Result(property = "name",column = "name"),
+        @Result(property = "leaderId",column = "leader_id"),
+        @Result(property = "info",column = "info"),
+        @Result(property = "staffs",javaType = List.class,column = "id",
+                many = @Many(select = "pers.quzhiyu.graduationproject.mapper.GroupMapper.findStaffs"))
+    })
+    GroupInfo findGroupById(@Param("id") Long id);
 
 
     @UpdateProvider(type = GroupProvider.class,method = "updateGroup")
@@ -56,4 +65,13 @@ public interface GroupMapper {
     @Select("SELECT s.*,g.name groupName\n" +
             "FROM staff s LEFT JOIN `group` g ON s.group_id = g.id")
     List<GroupStaff> findAllGroupStaff();
+
+    //把这个组原有成员的信息清除
+    @Update("UPDATE `staff` SET group_id = null WHERE group_id = #{id}")
+    void cleanGroupInfoById(Long id);
+
+    @Select("SELECT g.*,gc.count\n" +
+            "FROM `group` g LEFT JOIN (SELECT group_id, SUM(quantity) count FROM task GROUP BY group_id) gc\n" +
+            "ON g.id = gc.group_id")
+    List<GroupCount> findAllGroupCount();
 }

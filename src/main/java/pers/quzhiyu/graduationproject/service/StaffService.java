@@ -19,4 +19,6 @@ public interface StaffService {
     List<Staff> queryStaff(String name, Long job);
 
     int changeStaffsGroup(List<Staff> staffs, Long newId);
+
+    List<Staff> findAllStaffByGroupId(Long group);
 }

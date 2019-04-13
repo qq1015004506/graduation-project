@@ -44,6 +44,8 @@ public class TaskProvider {
                     SET("file_path = #{filePath}");
                 if(task.getStage() != null)
                     SET("stage = #{stage}");
+                if(task.getStaffId() != null)
+                    SET("staff_id = #{staffId}");
 
                 WHERE("id = #{id}");
             }

@@ -3,6 +3,7 @@ package pers.quzhiyu.graduationproject.service;
 import org.springframework.stereotype.Service;
 import pers.quzhiyu.graduationproject.domain.Group;
 import pers.quzhiyu.graduationproject.domain.Staff;
+import pers.quzhiyu.graduationproject.dto.GroupCount;
 import pers.quzhiyu.graduationproject.dto.GroupInfo;
 import pers.quzhiyu.graduationproject.dto.GroupStaff;
 
@@ -12,19 +13,16 @@ import java.util.List;
 public interface GroupService {
     List<GroupInfo> findAllGroup();
 
-    Group findGroupById(Long id);
+    GroupInfo findGroupById(Long id);
 
-    int updateGroup(final Group group);
+    int updateGroup(final GroupInfo groupInfo);
 
-    int insertGroup(Group group);
+    int insertGroup(GroupInfo group);
 
     int deleteGroupById(Long id);
 
-    List<Staff> findMemberByGroupId(Long id);
-
-    int addMemberToGroup(Long id, List<Long> groupMember);
-
-    int deleteMemberFromGroup(Long id, List<Long> ids);
 
     List<GroupStaff> findAllGroupStaff();
+
+    List<GroupCount> findAllGroupCount();
 }
