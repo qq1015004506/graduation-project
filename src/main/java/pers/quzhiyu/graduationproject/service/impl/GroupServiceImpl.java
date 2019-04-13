@@ -8,6 +8,7 @@ import pers.quzhiyu.graduationproject.domain.Staff;
 import pers.quzhiyu.graduationproject.dto.GroupCount;
 import pers.quzhiyu.graduationproject.dto.GroupInfo;
 import pers.quzhiyu.graduationproject.dto.GroupStaff;
+import pers.quzhiyu.graduationproject.dto.StaffTask;
 import pers.quzhiyu.graduationproject.mapper.GroupMapper;
 import pers.quzhiyu.graduationproject.mapper.StaffMapper;
 import pers.quzhiyu.graduationproject.service.GroupService;
@@ -66,6 +67,11 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public List<GroupCount> findAllGroupCount() {
         return groupMapper.findAllGroupCount();
+    }
+
+    @Override
+    public List<StaffTask> findAllStaffTask(Long id) {
+        return groupMapper.findAllStaffTask(id);
     }
 
 

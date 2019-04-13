@@ -6,6 +6,7 @@ import pers.quzhiyu.graduationproject.domain.Staff;
 import pers.quzhiyu.graduationproject.dto.GroupCount;
 import pers.quzhiyu.graduationproject.dto.GroupInfo;
 import pers.quzhiyu.graduationproject.dto.GroupStaff;
+import pers.quzhiyu.graduationproject.dto.StaffTask;
 
 import java.util.List;
 
@@ -25,4 +26,6 @@ public interface GroupService {
     List<GroupStaff> findAllGroupStaff();
 
     List<GroupCount> findAllGroupCount();
+
+    List<StaffTask> findAllStaffTask(Long id);
 }

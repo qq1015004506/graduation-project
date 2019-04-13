@@ -3,9 +3,11 @@ package pers.quzhiyu.graduationproject.mapper;
 import org.apache.ibatis.annotations.*;
 import pers.quzhiyu.graduationproject.domain.Group;
 import pers.quzhiyu.graduationproject.domain.Staff;
+import pers.quzhiyu.graduationproject.domain.Task;
 import pers.quzhiyu.graduationproject.dto.GroupCount;
 import pers.quzhiyu.graduationproject.dto.GroupInfo;
 import pers.quzhiyu.graduationproject.dto.GroupStaff;
+import pers.quzhiyu.graduationproject.dto.StaffTask;
 import pers.quzhiyu.graduationproject.provider.GroupProvider;
 
 import java.util.List;
@@ -74,4 +76,23 @@ public interface GroupMapper {
             "FROM `group` g LEFT JOIN (SELECT group_id, SUM(quantity) count FROM task GROUP BY group_id) gc\n" +
             "ON g.id = gc.group_id")
     List<GroupCount> findAllGroupCount();
+
+    @Select("SELECT * FROM staff WHERE group_id = #{id}")
+    @Results({
+            @Result(id = true,property = "id",column = "id"),
+            @Result(property = "name",column = "name"),
+            @Result(property = "description",column = "description"),
+            @Result(property = "quantity",column = "quantity"),
+            @Result(property = "stage",column = "stage"),
+            @Result(property = "staffId",column = "staff_id"),
+            @Result(property = "filePath",column = "file_path"),
+            @Result(property = "startTime",column = "start_time"),
+            @Result(property = "endTime",column = "end_time"),
+            @Result(property = "tasks",javaType = List.class,column = "id",
+                    many = @Many(select = "pers.quzhiyu.graduationproject.mapper.GroupMapper.findStaffTasks"))
+    })
+    List<StaffTask> findAllStaffTask(Long id);
+
+    @Select("SELECT * FROM task WHERE staff_id = #{id}")
+    List<Task> findStaffTasks(Long id);
 }

@@ -1,20 +1,14 @@
 package pers.quzhiyu.graduationproject.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import pers.quzhiyu.graduationproject.domain.Group;
-import pers.quzhiyu.graduationproject.domain.Staff;
 import pers.quzhiyu.graduationproject.dto.GroupCount;
 import pers.quzhiyu.graduationproject.dto.GroupInfo;
 import pers.quzhiyu.graduationproject.dto.GroupStaff;
+import pers.quzhiyu.graduationproject.dto.StaffTask;
 import pers.quzhiyu.graduationproject.service.GroupService;
-import pers.quzhiyu.graduationproject.service.StaffService;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/group")
@@ -56,5 +50,10 @@ public class GroupController {
     @DeleteMapping("/{id:\\d+}")
     public int deleteGroup(@PathVariable Long id){
         return groupService.deleteGroupById(id);
+    }
+
+    @GetMapping("/{id:\\d+}/staffTask")
+    public List<StaffTask> findAllStaffTask(@PathVariable Long id) {
+        return groupService.findAllStaffTask(id);
     }
 }

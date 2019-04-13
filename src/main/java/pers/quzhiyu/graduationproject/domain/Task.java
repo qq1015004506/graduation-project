@@ -2,12 +2,12 @@ package pers.quzhiyu.graduationproject.domain;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class Task {
   private Long id;
   private String name;
-  //父节点id
-  private Long fatherId;
   private String description;
   private java.sql.Timestamp startTime;
   private java.sql.Timestamp endTime;
@@ -16,5 +16,4 @@ public class Task {
   private String filePath;
   private Long stage;
   private Long staffId;
-  private Long groupId;
 }

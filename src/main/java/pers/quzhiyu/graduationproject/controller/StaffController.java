@@ -36,6 +36,7 @@ public class StaffController {
         return data;
     }
 
+
     @GetMapping("/query")
     public Map<String,Object> queryStaff(Long job, String name,
                                     @RequestParam(value = "current",defaultValue = "1")int current,

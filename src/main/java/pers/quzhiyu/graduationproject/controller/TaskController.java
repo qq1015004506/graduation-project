@@ -6,10 +6,13 @@ import pers.quzhiyu.graduationproject.domain.Task;
 import pers.quzhiyu.graduationproject.dto.TaskInfo;
 import pers.quzhiyu.graduationproject.service.TaskService;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/task")
+@CrossOrigin
 public class TaskController {
     @Autowired
     TaskService taskService;

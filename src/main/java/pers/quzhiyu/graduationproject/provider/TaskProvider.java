@@ -8,18 +8,7 @@ public class TaskProvider {
 
     public String updateTaskInfo(final TaskInfo taskInfo) {
         return new SQL(){
-            {
-                UPDATE("taskinfo");
 
-                if(taskInfo.getTaskId() != null)
-                    SET("task_id = #{taskId}");
-                if(taskInfo.getGroupId() != null)
-                    SET("group_id = #{groupId}");
-                if(taskInfo.getStaffId() != null)
-                    SET("staff_id = #{staffId}");
-
-                WHERE("id = #{id}");
-            }
         }.toString();
     }
 
@@ -30,8 +19,6 @@ public class TaskProvider {
 
                 if(task.getName() != null)
                     SET("name = #{name}");
-                if(task.getFatherId() != null)
-                    SET("father_id = #{fatherId}");
                 if(task.getDescription() != null)
                     SET("description = #{description}");
                 if(task.getStartTime() != null)
