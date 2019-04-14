@@ -1,6 +1,7 @@
 package pers.quzhiyu.graduationproject.service;
 
 import pers.quzhiyu.graduationproject.domain.Staff;
+import pers.quzhiyu.graduationproject.dto.StaffCount;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public interface StaffService {
 
     List<Staff> queryStaff(String name, Long job);
 
-    int changeStaffsGroup(List<Staff> staffs, Long newId);
+    int changeStaffsGroup(List<StaffCount> staffs, Long newId);
 
     List<Staff> findAllStaffByGroupId(Long group);
 }

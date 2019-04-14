@@ -3,6 +3,7 @@ package pers.quzhiyu.graduationproject.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pers.quzhiyu.graduationproject.domain.Staff;
+import pers.quzhiyu.graduationproject.dto.StaffCount;
 import pers.quzhiyu.graduationproject.mapper.StaffMapper;
 import pers.quzhiyu.graduationproject.service.StaffService;
 
@@ -50,7 +51,7 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public int changeStaffsGroup(List<Staff> staffs,Long newId) {
+    public int changeStaffsGroup(List<StaffCount> staffs, Long newId) {
         return staffMapper.changeStaffsGroup(staffs,newId);
     }
 

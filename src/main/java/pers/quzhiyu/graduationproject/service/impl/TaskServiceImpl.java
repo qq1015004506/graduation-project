@@ -14,7 +14,7 @@ public class TaskServiceImpl implements TaskService {
     TaskMapper taskMapper;
 
     @Override
-    public List<Task> findAllTask() {
+    public List<TaskInfo> findAllTask() {
         return taskMapper.findAllTask();
     }
 
@@ -46,5 +46,16 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public int updateTaskInfo(TaskInfo taskInfo) {
         return taskMapper.updateTaskInfo(taskInfo);
+    }
+
+    @Override
+    public List<TaskInfo> findAllTask(String name, String staffName, Long group) {
+        if(name == null )
+            name = "";
+        if(staffName == null)
+            staffName = "";
+        if(group != null)
+            return taskMapper.queryTask(name,staffName,group);
+        return taskMapper.queryTaskNoGroup(name,staffName);
     }
 }

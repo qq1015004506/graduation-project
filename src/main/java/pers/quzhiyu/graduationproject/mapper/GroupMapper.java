@@ -4,10 +4,7 @@ import org.apache.ibatis.annotations.*;
 import pers.quzhiyu.graduationproject.domain.Group;
 import pers.quzhiyu.graduationproject.domain.Staff;
 import pers.quzhiyu.graduationproject.domain.Task;
-import pers.quzhiyu.graduationproject.dto.GroupCount;
-import pers.quzhiyu.graduationproject.dto.GroupInfo;
-import pers.quzhiyu.graduationproject.dto.GroupStaff;
-import pers.quzhiyu.graduationproject.dto.StaffTask;
+import pers.quzhiyu.graduationproject.dto.*;
 import pers.quzhiyu.graduationproject.provider.GroupProvider;
 
 import java.util.List;
@@ -25,8 +22,10 @@ public interface GroupMapper {
     })
     List<GroupInfo> findAllGroup();
 
-    @Select("SELECT * FROM staff WHERE group_id = #{gid}")
-    List<Staff> findStaffs(Long gid);
+    @Select("SELECT s.*,IFNULL(t.count ,0) count\n" +
+            "FROM staff s LEFT JOIN (SELECT staff_id, SUM(quantity) `count` FROM task GROUP BY staff_id) t ON s.id = t.staff_id\n" +
+            "WHERE group_id = #{gid}")
+    List<StaffCount> findStaffs(Long gid);
 
     @Select("SELECT * FROM `group` WHERE id=#{id}")
     @Results({

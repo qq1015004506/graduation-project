@@ -8,5 +8,5 @@ import java.util.List;
 
 @Data
 public class GroupInfo extends Group {
-    List<Staff> staffs;
+    List<StaffCount> staffs;
 }

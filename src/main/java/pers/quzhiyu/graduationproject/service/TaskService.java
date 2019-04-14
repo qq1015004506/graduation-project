@@ -8,7 +8,7 @@ import java.util.List;
 
 @Service
 public interface TaskService {
-    List<Task> findAllTask();
+    List<TaskInfo> findAllTask();
 
     Task findTaskById(Long id);
 
@@ -21,4 +21,6 @@ public interface TaskService {
     int distributeTask(TaskInfo taskInfo);
 
     int updateTaskInfo(TaskInfo taskInfo);
+
+    List<TaskInfo> findAllTask(String name, String staffName, Long group);
 }

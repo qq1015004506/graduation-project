@@ -2,6 +2,7 @@ package pers.quzhiyu.graduationproject.mapper;
 
 import org.apache.ibatis.annotations.*;
 import pers.quzhiyu.graduationproject.domain.Staff;
+import pers.quzhiyu.graduationproject.dto.StaffCount;
 import pers.quzhiyu.graduationproject.provider.StaffProvider;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public interface StaffMapper {
     List<Staff> queryStaffByName(@Param("name") String name);
 
     @UpdateProvider(type = StaffProvider.class, method = "changeStaffsGroup")
-    int changeStaffsGroup(List<Staff> staffs,Long newId);
+    int changeStaffsGroup(List<StaffCount> staffs, Long newId);
 
 
     @Select("SELECT * FROM `staff` WHERE group_id = #{group}")
