@@ -27,8 +27,8 @@ public class TaskProvider {
                     SET("end_time = #{endTime}");
                 if(task.getQuantity() != null)
                     SET("quantity = #{quantity}");
-                if(task.getFilePath() != null)
-                    SET("file_path = #{filePath}");
+                if(task.getCodeId() != null)
+                    SET("code_id = #{codeId}");
                 if(task.getStage() != null)
                     SET("stage = #{stage}");
                 if(task.getStaffId() != null)

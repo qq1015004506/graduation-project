@@ -63,4 +63,9 @@ public class TaskServiceImpl implements TaskService {
     public List<Task> findTaskByStaffId(Long id) {
         return taskMapper.findTaskByStaffId(id);
     }
+
+    @Override
+    public int changeTaskCodeInfo(Long taskId, Long codeId) {
+        return taskMapper.changeTaskCodeInfo(taskId,codeId);
+    }
 }

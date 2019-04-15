@@ -84,7 +84,7 @@ public interface GroupMapper {
             @Result(property = "quantity",column = "quantity"),
             @Result(property = "stage",column = "stage"),
             @Result(property = "staffId",column = "staff_id"),
-            @Result(property = "filePath",column = "file_path"),
+            @Result(property = "codeId",column = "code_id"),
             @Result(property = "startTime",column = "start_time"),
             @Result(property = "endTime",column = "end_time"),
             @Result(property = "tasks",javaType = List.class,column = "id",

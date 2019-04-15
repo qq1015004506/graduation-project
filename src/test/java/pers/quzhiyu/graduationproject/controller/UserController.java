@@ -1,5 +1,6 @@
 package pers.quzhiyu.graduationproject.controller;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.ibatis.jdbc.SQL;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +17,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import pers.quzhiyu.graduationproject.dto.GroupInfo;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,6 +33,21 @@ public class UserController {
     @Before
     public void setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+    }
+
+    private String folder = "D:\\source\\graduation-project\\src\\main\\java\\pers\\quzhiyu\\graduationproject\\controller";
+
+    @Test
+    public void testFileReader() throws IOException {
+        File file = new File(folder,"FileController.java");
+        try(InputStreamReader isr = new InputStreamReader(new FileInputStream(file), "utf-8");
+            BufferedReader bufferedReader = new BufferedReader(isr)) {
+            StringBuilder sb = new StringBuilder();
+            String lineTxt = null;
+            while ((lineTxt = bufferedReader.readLine()) != null) {
+                sb.append(lineTxt+"\n");
+            }
+        }
     }
 
     @Test

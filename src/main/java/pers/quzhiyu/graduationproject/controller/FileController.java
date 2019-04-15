@@ -40,9 +40,14 @@ public class FileController {
     }
 
 
+    @GetMapping("/task/{id:\\d+}/details")
+    public List<String> findAllCodeDetailsByTaskId(@PathVariable Long id) {
+        return codeService.findAllCodeDetailsByTaskId(id);
+    }
+
     @PostMapping
     public FileInfo upload(MultipartFile file, Code code) throws IOException {
-        String fileName = new Date().getTime() +"."+ getExtensionName(file.getOriginalFilename());
+        String fileName = new Date().getTime()+"";
         code.setUploadTime(new Timestamp(new Date().getTime()));
         code.setFilename(fileName);
 

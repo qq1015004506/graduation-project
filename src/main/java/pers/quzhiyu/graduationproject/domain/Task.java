@@ -13,7 +13,7 @@ public class Task {
   private java.sql.Timestamp endTime;
   //工作量
   private Long quantity;
-  private String filePath;
+  private String codeId;
   private Long stage;
   private Long staffId;
 }

@@ -62,11 +62,6 @@ public class TaskController {
         return taskService.updateTask(task);
     }
 
-    @DeleteMapping("/{id:\\d+}")
-    public int deleteTask(@PathVariable Long id){
-        return taskService.deleteTaskById(id);
-    }
-
     @PostMapping("/distribute")
     public int distributeTask(@RequestBody TaskInfo taskInfo) {
         return taskService.distributeTask(taskInfo);
@@ -77,9 +72,5 @@ public class TaskController {
         return taskService.updateTaskInfo(taskInfo);
     }
 
-    @PutMapping("/{taskId:\\d+}/codeId/{codeId:\\d+}")
-    public int changeTaskCodeInfo(@PathVariable Long taskId,@PathVariable Long codeId) {
-        return taskService.changeTaskCodeInfo(taskId,codeId);
-    }
 
 }

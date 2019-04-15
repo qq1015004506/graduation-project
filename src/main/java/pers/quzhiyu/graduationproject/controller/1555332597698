@@ -72,14 +72,5 @@ public class TaskController {
         return taskService.distributeTask(taskInfo);
     }
 
-    @PutMapping("/distribute")
-    public int updateTaskInfo(@RequestBody TaskInfo taskInfo) {
-        return taskService.updateTaskInfo(taskInfo);
-    }
-
-    @PutMapping("/{taskId:\\d+}/codeId/{codeId:\\d+}")
-    public int changeTaskCodeInfo(@PathVariable Long taskId,@PathVariable Long codeId) {
-        return taskService.changeTaskCodeInfo(taskId,codeId);
-    }
 
 }
