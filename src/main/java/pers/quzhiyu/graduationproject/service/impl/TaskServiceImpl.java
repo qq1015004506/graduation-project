@@ -58,4 +58,9 @@ public class TaskServiceImpl implements TaskService {
             return taskMapper.queryTask(name,staffName,group);
         return taskMapper.queryTaskNoGroup(name,staffName);
     }
+
+    @Override
+    public List<Task> findTaskByStaffId(Long id) {
+        return taskMapper.findTaskByStaffId(id);
+    }
 }

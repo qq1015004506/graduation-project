@@ -23,4 +23,6 @@ public interface TaskService {
     int updateTaskInfo(TaskInfo taskInfo);
 
     List<TaskInfo> findAllTask(String name, String staffName, Long group);
+
+    List<Task> findTaskByStaffId(Long id);
 }

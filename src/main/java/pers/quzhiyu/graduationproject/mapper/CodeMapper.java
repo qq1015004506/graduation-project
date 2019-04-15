@@ -13,15 +13,18 @@ public interface CodeMapper {
     @Select("SELECT * FROM `code`")
     List<Code> findAllCode();
     @Insert("INSERT INTO `code`" +
-            "(filename,upload_time,staff_id,group_id,commit,version)" +
+            "(filename,upload_time,staff_id,task_id,commit)" +
             "VALUES" +
-            "(#{filename},#{uploadTime},#{staffId},#{groupId},#{commit},#{version})")
+            "(#{filename},#{uploadTime},#{staffId},#{taskId},#{commit})")
     @Options(useGeneratedKeys = true,keyProperty = "id",keyColumn = "id")
     int insertCode(Code code);
 
-    @InsertProvider(type = CodeProvider.class,method = "updateCode")
+    @UpdateProvider(type = CodeProvider.class,method = "updateCode")
     int updateCode(Code code);
 
     @Delete("DELETE FROM `code` WHERE id = #{id}")
     int deleteCodeById(Long id);
+
+    @Select("SELECT * FROM `code` WHERE task_id = #{id}")
+    List<Code> findAllCodeByTaskId(Long id);
 }

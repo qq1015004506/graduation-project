@@ -37,4 +37,9 @@ public class CodeServiceImpl implements CodeService {
     public int deleteCodeById(Long id) {
         return codeMapper.deleteCodeById(id);
     }
+
+    @Override
+    public List<Code> findAllCodeByTaskId(Long id) {
+        return codeMapper.findAllCodeByTaskId(id);
+    }
 }

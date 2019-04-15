@@ -14,4 +14,6 @@ public interface CodeService {
     int updateCode(Code code);
 
     int deleteCodeById(Long id);
+
+    List<Code> findAllCodeByTaskId(Long id);
 }

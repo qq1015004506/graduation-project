@@ -16,12 +16,10 @@ public class CodeProvider {
                     SET("upload_time = #{uploadTime}");
                 if(code.getStaffId() != null)
                     SET("staff_id = #{staffId}");
-                if(code.getGroupId() != null)
-                    SET("group_id = #{groupId}");
+                if(code.getTaskId() != null)
+                    SET("task_id = #{taskId}");
                 if(code.getCommit() != null)
                     SET("commit = #{commit}");
-                if(code.getVersion() != null)
-                    SET("version = #{version}");
 
                 WHERE("id = #{id}");
             }

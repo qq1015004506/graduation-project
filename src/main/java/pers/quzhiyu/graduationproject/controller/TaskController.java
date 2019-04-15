@@ -27,6 +27,11 @@ public class TaskController {
         return taskService.findTaskById(id);
     }
 
+
+    @GetMapping("/staff/{id:\\d+}")
+    public List<Task> findTaskByStaffId(@PathVariable Long id) {
+        return taskService.findTaskByStaffId(id);
+    }
     @GetMapping("/query")
     public Map<String,Object> queryTask(@RequestParam(value = "name",defaultValue = "")String name,
                                         @RequestParam(value = "staffName",defaultValue = "")String staffName,Long group,

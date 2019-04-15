@@ -52,4 +52,7 @@ public interface TaskMapper {
             "FROM task t LEFT JOIN (SELECT s.id staff_id,s.name staff_name,g.name group_name,g.id group_id FROM staff s LEFT JOIN `group` g ON s.group_id = g.id) sg ON t.staff_id = sg.staff_id\n" +
             "WHERE `name` LIKE '%${name}%' AND `staff_name` LIKE '%${staffName}%'")
     List<TaskInfo> queryTaskNoGroup(@Param("name") String name,@Param("staffName")  String staffName);
+
+    @Select("SELECT * FROM `task` WHERE staff_id = #{id}")
+    List<Task> findTaskByStaffId(Long id);
 }

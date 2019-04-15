@@ -1,27 +1,56 @@
 package pers.quzhiyu.graduationproject.controller;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import pers.quzhiyu.graduationproject.domain.Code;
 import pers.quzhiyu.graduationproject.dto.FileInfo;
+import pers.quzhiyu.graduationproject.service.CodeService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/file")
+@CrossOrigin
 public class FileController {
     private String folder = "D:\\source\\graduation-project\\src\\main\\java\\pers\\quzhiyu\\graduationproject\\controller";
-    @PostMapping
-    public FileInfo upload(MultipartFile file) throws IOException {
-        System.out.println(file.getName());
-        System.out.println(file.getOriginalFilename());
-        System.out.println(file.getSize());
 
-        File localFile = new File(folder,new Date().getTime() + ".txt");
+    @Autowired
+    CodeService codeService;
+
+    public String getExtensionName(String filename) {
+        if ((filename != null) && (filename.length() > 0)) {
+            int dot = filename.lastIndexOf('.');
+            if ((dot >-1) && (dot < (filename.length() - 1))) {
+                return filename.substring(dot + 1);
+            }
+        }
+        return filename;
+    }
+
+    @GetMapping("/task/{id:\\d+}")
+    public List<Code> findAllCodeByTaskId(@PathVariable Long id) {
+        return codeService.findAllCodeByTaskId(id);
+    }
+
+
+    @PostMapping
+    public FileInfo upload(MultipartFile file, Code code) throws IOException {
+        String fileName = new Date().getTime() +"."+ getExtensionName(file.getOriginalFilename());
+        code.setUploadTime(new Timestamp(new Date().getTime()));
+        code.setFilename(fileName);
+
+        File localFile = new File(folder,fileName);
         file.transferTo(localFile);
+
+        codeService.insertCode(code);
+
         return new FileInfo(localFile.getAbsolutePath());
     }
 
