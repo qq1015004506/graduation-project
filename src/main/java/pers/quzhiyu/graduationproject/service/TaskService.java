@@ -27,4 +27,12 @@ public interface TaskService {
     List<Task> findTaskByStaffId(Long id);
 
     int changeTaskCodeInfo(Long taskId, Long codeId);
+
+    List<Task> findTaskByGroupForTester(Long id);
+
+    int createTestTask(Task task);
+
+    int deleteTestTask(Long testId, Long taskId);
+
+    int testResult(Task task);
 }

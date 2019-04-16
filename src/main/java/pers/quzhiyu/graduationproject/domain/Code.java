@@ -14,4 +14,5 @@ public class Code {
     //相同文件共用同一个组id
     private Long taskId;
     private String commit;
+    private String codeDetail;
 }

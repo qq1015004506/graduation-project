@@ -17,5 +17,4 @@ public interface CodeService {
 
     List<Code> findAllCodeByTaskId(Long id);
 
-    List<String> findAllCodeDetailsByTaskId(Long id);
 }

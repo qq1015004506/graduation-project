@@ -13,9 +13,9 @@ public interface CodeMapper {
     @Select("SELECT * FROM `code`")
     List<Code> findAllCode();
     @Insert("INSERT INTO `code`" +
-            "(filename,upload_time,staff_id,task_id,commit)" +
+            "(filename,upload_time,staff_id,task_id,commit,code_detail)" +
             "VALUES" +
-            "(#{filename},#{uploadTime},#{staffId},#{taskId},#{commit})")
+            "(#{filename},#{uploadTime},#{staffId},#{taskId},#{commit},#{codeDetail})")
     @Options(useGeneratedKeys = true,keyProperty = "id",keyColumn = "id")
     int insertCode(Code code);
 

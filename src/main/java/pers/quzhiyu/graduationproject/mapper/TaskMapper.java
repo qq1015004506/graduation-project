@@ -25,9 +25,9 @@ public interface TaskMapper {
     int updateTask(final Task task);
 
     @Insert("INSERT INTO `task` " +
-            "(`name`,`description`,`start_time`,`end_time`,`quantity`,`code_id`,`stage`,`staff_id`) " +
+            "(`name`,`description`,`start_time`,`end_time`,`quantity`,`code_id`,`stage`,`staff_id`,`is_test`) " +
             "VALUES" +
-            "(#{name},#{description},#{startTime},#{endTime},#{quantity},#{codeId},#{stage},#{staffId})")
+            "(#{name},#{description},#{startTime},#{endTime},#{quantity},#{codeId},#{stage},#{staffId},#{isTest})")
     @Options(useGeneratedKeys = true,keyProperty = "id",keyColumn = "id")
     int insertTask(Task task);
 
@@ -58,4 +58,7 @@ public interface TaskMapper {
 
     @Update("UPDATE `task` set code_id = #{codeId} WHERE id = #{taskId}")
     int changeTaskCodeInfo(@Param("taskId") Long taskId, @Param("codeId") Long codeId);
+
+    @Select("SELECT * FROM `task` WHERE `group_id` = #{id} AND `stage` = 3")
+    List<Task> findTaskByGroupForTester(Long id);
 }

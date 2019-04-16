@@ -2,18 +2,22 @@ package pers.quzhiyu.graduationproject.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pers.quzhiyu.graduationproject.domain.Code;
+import pers.quzhiyu.graduationproject.domain.Task;
 import pers.quzhiyu.graduationproject.mapper.CodeMapper;
+import pers.quzhiyu.graduationproject.mapper.TaskMapper;
 import pers.quzhiyu.graduationproject.service.CodeService;
 
-import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class CodeServiceImpl implements CodeService {
     @Autowired
     CodeMapper codeMapper;
+
+    @Autowired
+    TaskMapper taskMapper;
 
     @Override
     public Code findCodeById(Long id) {
@@ -26,8 +30,15 @@ public class CodeServiceImpl implements CodeService {
     }
 
     @Override
+    @Transactional
     public int insertCode(Code code) {
-        return codeMapper.insertCode(code);
+        Task t = new Task();
+        t.setStage(1L);
+        t.setId(code.getTaskId());
+        codeMapper.insertCode(code);
+        t.setCodeId(code.getId());
+        taskMapper.updateTask(t);
+        return 1;
     }
 
     @Override
@@ -42,36 +53,9 @@ public class CodeServiceImpl implements CodeService {
 
     @Override
     public List<Code> findAllCodeByTaskId(Long id) {
+
         return codeMapper.findAllCodeByTaskId(id);
     }
 
-    private String folder = "D:\\source\\graduation-project\\src\\main\\java\\pers\\quzhiyu\\graduationproject\\controller";
 
-    public String readFileToString(File file) throws IOException {
-        StringBuilder sb;
-        try(InputStreamReader isr = new InputStreamReader(new FileInputStream(file), "utf-8");
-            BufferedReader bufferedReader = new BufferedReader(isr)) {
-            sb = new StringBuilder();
-            String lineTxt = null;
-            while ((lineTxt = bufferedReader.readLine()) != null) {
-                sb.append(lineTxt+"\n");
-            }
-        }
-        return sb.toString();
-    }
-
-    @Override
-    public List<String> findAllCodeDetailsByTaskId(Long id) {
-        List<Code> allCodeByTaskId = codeMapper.findAllCodeByTaskId(id);
-        List<String> result = new ArrayList<>();
-        for (Code code : allCodeByTaskId) {
-            File f = new File(folder,code.getFilename());
-            try {
-                result.add(readFileToString(f));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return result;
-    }
 }

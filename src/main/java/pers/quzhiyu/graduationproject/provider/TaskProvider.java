@@ -33,6 +33,8 @@ public class TaskProvider {
                     SET("stage = #{stage}");
                 if(task.getStaffId() != null)
                     SET("staff_id = #{staffId}");
+                if(task.getIsTest() != null)
+                    SET("is_test = #{isTest}");
 
                 WHERE("id = #{id}");
             }

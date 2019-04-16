@@ -27,6 +27,10 @@ public class TaskController {
         return taskService.findTaskById(id);
     }
 
+    @GetMapping("/group/{id:\\d+}")
+    public List<Task> findTaskByGroupForTester(@PathVariable Long id) {
+        return taskService.findTaskByGroupForTester(id);
+    }
 
     @GetMapping("/staff/{id:\\d+}")
     public List<Task> findTaskByStaffId(@PathVariable Long id) {
@@ -53,8 +57,13 @@ public class TaskController {
     }
 
     @PostMapping()
-    public int CreateTask(@RequestBody Task task) {
+    public int createTask(@RequestBody Task task) {
         return taskService.insertTask(task);
+    }
+
+    @PostMapping("/test")
+    public int createTestTask(@RequestBody Task task) {
+        return taskService.createTestTask(task);
     }
 
     @PutMapping()
@@ -65,6 +74,11 @@ public class TaskController {
     @DeleteMapping("/{id:\\d+}")
     public int deleteTask(@PathVariable Long id){
         return taskService.deleteTaskById(id);
+    }
+
+    @DeleteMapping("/test/{testId:\\d+}/{taskId:\\d+}")
+    public int deleteTestTask(@PathVariable Long testId, @PathVariable Long taskId) {
+        return taskService.deleteTestTask(testId,taskId);
     }
 
     @PostMapping("/distribute")
@@ -81,5 +95,12 @@ public class TaskController {
     public int changeTaskCodeInfo(@PathVariable Long taskId,@PathVariable Long codeId) {
         return taskService.changeTaskCodeInfo(taskId,codeId);
     }
+
+    @PutMapping("/eval")
+    public int testResult(@RequestBody Task task) {
+        System.out.println(task);
+        return taskService.testResult(task);
+    }
+
 
 }
