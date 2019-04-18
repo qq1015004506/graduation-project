@@ -1,5 +1,6 @@
 package pers.quzhiyu.graduationproject.controller;
 
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,7 @@ public class FileController {
     TaskService taskService;
 
     @GetMapping("/task/{id:\\d+}")
+    @ApiOperation("通过任务ID查询代码服务")
     public List<Code> findAllCodeByTaskId(@PathVariable Long id) {
         return codeService.findAllCodeByTaskId(id);
     }
@@ -36,6 +38,7 @@ public class FileController {
 
 
     @PostMapping
+    @ApiOperation("文件上传服务")
     public int upload(MultipartFile file, Code code) throws IOException {
         String fileName = new Date().getTime()+"";
         code.setUploadTime(new Timestamp(new Date().getTime()));
@@ -46,6 +49,7 @@ public class FileController {
 
     @GetMapping("/{id}")
     @Transactional
+    @ApiOperation("代码下载服务")
     public void download(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) throws IOException {
         Task task= taskService.findTaskById(id);
         String codeDetail = codeService.findCodeById(task.getCodeId()).getCodeDetail();
