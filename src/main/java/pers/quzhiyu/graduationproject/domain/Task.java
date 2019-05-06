@@ -16,5 +16,6 @@ public class Task {
   private Long codeId;
   private Long stage;
   private Long staffId;
+  private String evaluation;
   private Long isTest;
 }

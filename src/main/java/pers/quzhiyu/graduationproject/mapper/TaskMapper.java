@@ -25,9 +25,9 @@ public interface TaskMapper {
     int updateTask(final Task task);
 
     @Insert("INSERT INTO `task` " +
-            "(`name`,`description`,`start_time`,`end_time`,`quantity`,`code_id`,`stage`,`staff_id`,`is_test`) " +
+            "(`name`,`description`,`start_time`,`end_time`,`quantity`,`code_id`,`stage`,`staff_id`,`evaluation`,`is_test`) " +
             "VALUES" +
-            "(#{name},#{description},#{startTime},#{endTime},#{quantity},#{codeId},#{stage},#{staffId},#{isTest})")
+            "(#{name},#{description},#{startTime},#{endTime},#{quantity},#{codeId},#{stage},#{staffId},#{evaluation},#{isTest})")
     @Options(useGeneratedKeys = true,keyProperty = "id",keyColumn = "id")
     int insertTask(Task task);
 

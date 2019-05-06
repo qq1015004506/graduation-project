@@ -18,11 +18,11 @@ public class GroupController {
     @Autowired
     GroupService groupService;
 
-//    @GetMapping("/count")
-//    @ApiOperation("查询分组服务")
-//    public List<GroupCount> findAllGroupCount() {
-//        return groupService.findAllGroupCount();
-//    }
+    @GetMapping("/count")
+    @ApiOperation("查询分组服务")
+    public List<GroupCount> findAllGroupCount() {
+        return groupService.findAllGroupCount();
+    }
 
     @GetMapping("/{id:\\d+}")
     @ApiOperation("通过组ID查询分组服务")

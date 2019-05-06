@@ -71,9 +71,10 @@ public interface GroupMapper {
     @Update("UPDATE `staff` SET group_id = null WHERE group_id = #{id}")
     void cleanGroupInfoById(Long id);
 
-    @Select("SELECT g.*,gc.count\n" +
-            "FROM `group` g LEFT JOIN (SELECT group_id, SUM(quantity) count FROM task GROUP BY group_id) gc\n" +
-            "ON g.id = gc.group_id")
+    @Select("SELECT g.name, SUM(IFNULL(stf.count,0)) COUNT\n" +
+            "FROM `group` g LEFT JOIN (SELECT * FROM staff s, (SELECT staff_id, SUM(quantity) `count` FROM task GROUP BY staff_id) c WHERE s.id = c.staff_id) stf\n" +
+            "ON g.id = stf.group_id\n" +
+            "GROUP BY name")
     List<GroupCount> findAllGroupCount();
 
     @Select("SELECT * FROM staff WHERE group_id = #{id}")
