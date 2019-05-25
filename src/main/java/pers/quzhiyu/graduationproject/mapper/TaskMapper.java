@@ -17,6 +17,9 @@ public interface TaskMapper {
             "ON t.staff_id = sg.staff_id")
     List<TaskInfo> findAllTask();
 
+    @Select("SELECT * FROM task")
+    List<Task> findAll();
+
     @Select("SELECT * FROM `task` WHERE id=#{id}")
     Task findTaskById(@Param("id") Long id);
 
@@ -61,4 +64,9 @@ public interface TaskMapper {
 
     @Select("SELECT * FROM `task` WHERE `group_id` = #{id} AND `stage` = 3")
     List<Task> findTaskByGroupForTester(Long id);
+
+    @UpdateProvider(type = TaskProvider.class, method = "checkOverdueTask")
+    int checkOverdueTask(@Param("tasks") List<Task> tasks);
+    @Select("SELECT * FROM task WHERE start_time BETWEEN #{begin} AND #{end} OR end_time BETWEEN #{begin} AND #{end} ")
+    List<Task> findVisualDataByDate(@Param("begin") String begin, @Param("end") String end);
 }

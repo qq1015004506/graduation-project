@@ -1,6 +1,7 @@
 package pers.quzhiyu.graduationproject.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pers.quzhiyu.graduationproject.domain.Task;
@@ -8,6 +9,9 @@ import pers.quzhiyu.graduationproject.dto.TaskInfo;
 import pers.quzhiyu.graduationproject.mapper.TaskMapper;
 import pers.quzhiyu.graduationproject.service.TaskService;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -106,5 +110,32 @@ public class TaskServiceImpl implements TaskService {
         testTask.setStage(5L);
         taskMapper.updateTask(t);
         return taskMapper.updateTask(testTask);
+    }
+
+
+
+    @Override
+    @Scheduled(cron = "0 0 0 * * ?")
+    @Transactional
+    public void checkOverdueTask() {
+        System.out.println("checkOverdueTask");
+        List<Task> allTask = taskMapper.findAll();
+        List<Task> overdueTask = new ArrayList<>();
+
+        for (Task taskInfo : allTask) {
+            Timestamp endTime = taskInfo.getEndTime();
+            Timestamp currentTime = new Timestamp(new Date().getTime());
+            if(endTime.before(currentTime)) {
+                overdueTask.add(taskInfo);
+            }
+        }
+        System.out.println(overdueTask);
+        taskMapper.checkOverdueTask(overdueTask);
+
+    }
+
+    @Override
+    public List<Task> findVisualDataByDate(String begin, String end) {
+        return taskMapper.findVisualDataByDate(begin,end);
     }
 }

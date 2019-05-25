@@ -1,8 +1,11 @@
 package pers.quzhiyu.graduationproject.provider;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 import pers.quzhiyu.graduationproject.domain.Task;
 import pers.quzhiyu.graduationproject.dto.TaskInfo;
+
+import java.util.List;
 
 public class TaskProvider {
 
@@ -41,5 +44,16 @@ public class TaskProvider {
                 WHERE("id = #{id}");
             }
         }.toString();
+    }
+
+    public String checkOverdueTask(@Param("tasks") List<Task> tasks) {
+        System.out.println("....checkOverdueTask");
+        StringBuilder res = new StringBuilder();
+        res.append("REPLACE INTO `task` (`id`,`name`,`description`,`start_time`,`end_time`,`quantity`,`code_id`,`stage`,`staff_id`,`evaluation`,`is_test`) VALUES ");
+        for (Task t : tasks) {
+            res.append("("+t.getId()+",'"+t.getName()+"','"+t.getDescription()+"','"+t.getStartTime()+"','"+t.getEndTime()
+                    +"',"+t.getQuantity()+","+t.getCodeId()+",6,"+t.getStaffId()+",'"+t.getEvaluation()+"',"+t.getIsTest()+"),");
+        }
+        return res.toString().substring(0,res.length()-1);
     }
 }

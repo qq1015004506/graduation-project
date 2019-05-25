@@ -35,4 +35,8 @@ public interface TaskService {
     int deleteTestTask(Long testId, Long taskId);
 
     int testResult(Task task);
+
+    void checkOverdueTask();
+
+    List<Task> findVisualDataByDate(String begin, String end);
 }

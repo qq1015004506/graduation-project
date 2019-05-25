@@ -10,10 +10,11 @@ import pers.quzhiyu.graduationproject.domain.Task;
 import pers.quzhiyu.graduationproject.dto.TaskInfo;
 import pers.quzhiyu.graduationproject.service.TaskService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -29,6 +30,34 @@ public class TaskController {
         return taskService.findTaskById(id);
     }
 
+    @GetMapping("/date/{year}/{month}")
+    public List<List<String>> findVisualDataByDate(@PathVariable Long year, @PathVariable Long month) {
+        String begin = year + "-" + month + "-1";
+        String end = month == 12 ? (year + 1) + "-1-1" : year + "-" + (month + 1) +"-1";
+        System.out.println(begin);
+        System.out.println(end);
+
+        List<Task> tasks = taskService.findVisualDataByDate(begin,end);
+        List<List<String>> arrays = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        for (Task task : tasks) {
+            List<String> strs = new ArrayList<>();
+            strs.add(sdf.format(task.getStartTime()));
+            strs.add(task.getName());
+            strs.add("开始");
+            strs.add(task.getQuantity().toString());
+            strs.add(task.getStage().toString());
+            arrays.add(strs);
+            strs = new ArrayList<>();
+            strs.add(sdf.format(task.getEndTime()));
+            strs.add(task.getName());
+            strs.add("结束");
+            strs.add(task.getQuantity().toString());
+            strs.add(task.getStage().toString());
+            arrays.add(strs);
+        }
+        return arrays;
+    }
     @GetMapping("/group/{id:\\d+}")
     @ApiOperation("为测试人员提供的通过分组查询任务信息服务")
     public List<Task> findTaskByGroupForTester(@PathVariable Long id) {
