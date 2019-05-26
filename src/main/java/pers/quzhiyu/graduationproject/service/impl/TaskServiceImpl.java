@@ -138,4 +138,9 @@ public class TaskServiceImpl implements TaskService {
     public List<Task> findVisualDataByDate(String begin, String end) {
         return taskMapper.findVisualDataByDate(begin,end);
     }
+
+    @Override
+    public List<Task> findStaffVisualDataByDate(String begin, String end, Long id) {
+        return taskMapper.findStaffVisualDataByDate(begin,end,id);
+    }
 }

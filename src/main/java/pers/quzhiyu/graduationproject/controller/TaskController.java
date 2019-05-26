@@ -5,17 +5,12 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pers.quzhiyu.graduationproject.domain.Staff;
 import pers.quzhiyu.graduationproject.domain.Task;
 import pers.quzhiyu.graduationproject.dto.TaskInfo;
 import pers.quzhiyu.graduationproject.service.TaskService;
 
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/task")
@@ -40,6 +35,25 @@ public class TaskController {
         List<Task> tasks = taskService.findVisualDataByDate(begin,end);
         List<List<String>> arrays = new ArrayList<>();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        dataHandler(tasks, arrays, sdf);
+        return arrays;
+    }
+
+    @GetMapping("/date/staff/{year}/{month}/{id}")
+    public List<List<String>> findStaffVisualDataByDate(@PathVariable Long year, @PathVariable Long month, @PathVariable Long id) {
+        String begin = year + "-" + month + "-1";
+        String end = month == 12 ? (year + 1) + "-1-1" : year + "-" + (month + 1) +"-1";
+        System.out.println(begin);
+        System.out.println(end);
+
+        List<Task> tasks = taskService.findStaffVisualDataByDate(begin,end, id);
+        List<List<String>> arrays = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        dataHandler(tasks, arrays, sdf);
+        return arrays;
+    }
+
+    private void dataHandler(List<Task> tasks, List<List<String>> arrays, SimpleDateFormat sdf) {
         for (Task task : tasks) {
             List<String> strs = new ArrayList<>();
             strs.add(sdf.format(task.getStartTime()));
@@ -56,8 +70,8 @@ public class TaskController {
             strs.add(task.getStage().toString());
             arrays.add(strs);
         }
-        return arrays;
     }
+
     @GetMapping("/group/{id:\\d+}")
     @ApiOperation("为测试人员提供的通过分组查询任务信息服务")
     public List<Task> findTaskByGroupForTester(@PathVariable Long id) {

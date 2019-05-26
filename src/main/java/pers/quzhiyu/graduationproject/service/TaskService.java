@@ -39,4 +39,6 @@ public interface TaskService {
     void checkOverdueTask();
 
     List<Task> findVisualDataByDate(String begin, String end);
+
+    List<Task> findStaffVisualDataByDate(String begin, String end, Long id);
 }
