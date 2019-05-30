@@ -2,6 +2,7 @@ package pers.quzhiyu.graduationproject.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pers.quzhiyu.graduationproject.domain.Staff;
 import pers.quzhiyu.graduationproject.dto.StaffCount;
 import pers.quzhiyu.graduationproject.mapper.StaffMapper;
@@ -35,7 +36,11 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
+    @Transactional
     public int insertStaff(Staff staff) {
+        int n = staffMapper.findStaffByUsername(staff.getUsername());
+        if(n > 0)
+            return 0;
         return staffMapper.insertStaff(staff);
     }
 

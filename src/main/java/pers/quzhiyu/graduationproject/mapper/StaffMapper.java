@@ -21,7 +21,7 @@ public interface StaffMapper {
     @Insert("INSERT INTO `staff` " +
             "(`username`,`password`,`name`,`job`,`email`,`phone`,`group_id`) " +
             "VALUES" +
-            "(#{username},#{password},#{name},#{job},#{email},#{phone},#{group_id})")
+            "(#{username},#{password},#{name},#{job},#{email},#{phone},#{groupId})")
     @Options(useGeneratedKeys = true,keyProperty = "id",keyColumn = "id")
     int insertStaff(Staff staff);
 
@@ -41,4 +41,7 @@ public interface StaffMapper {
 
     @Select("SELECT * FROM `staff` WHERE group_id = #{group}")
     List<Staff> findAllStaffByGroupId(Long group);
+
+    @Select("SELECT count(1) FROM `staff` WHERE username = #{username} ")
+    int findStaffByUsername(String username);
 }
