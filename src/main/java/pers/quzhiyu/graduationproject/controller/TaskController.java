@@ -9,6 +9,7 @@ import pers.quzhiyu.graduationproject.domain.Task;
 import pers.quzhiyu.graduationproject.dto.TaskInfo;
 import pers.quzhiyu.graduationproject.service.TaskService;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -83,6 +84,7 @@ public class TaskController {
     public List<Task> findTaskByStaffId(@PathVariable Long id) {
         return taskService.findTaskByStaffId(id);
     }
+
     @GetMapping("/query")
     @ApiOperation("查询任务服务")
     public Map<String,Object> queryTask(@RequestParam(value = "name",defaultValue = "")String name,
@@ -120,20 +122,40 @@ public class TaskController {
     @PutMapping()
     @ApiOperation("更新任务服务")
     public int UpdateTask(@RequestBody Task task) {
+        Timestamp endTime = task.getEndTime();
+        Timestamp time = new Timestamp(new Date().getTime());
+        // 当修改后的结束时间早于当前时间，就会变为超时状态。
+        if(time.after(endTime)) {
+            task.setStage(6L);
+        }
+        // 当修改后的结束时间晚于当前时间，并且状态为超时
+        if(time.before(endTime) && task.getStage() == 6L) {
+            // 如果是开发任务，就将状态变为开发中
+            if(task.getIsTest() == 0)
+                task.setStage(2L);
+            // 如果是测试任务，就将状态变为测试中
+            if(task.getIsTest() == 1)
+                task.setStage(3L);
+        }
         return taskService.updateTask(task);
     }
 
     @DeleteMapping("/{id:\\d+}")
     @ApiOperation("删除任务服务")
     public int deleteTask(@PathVariable Long id){
+        //删除开发任务也需要删除对应的测试任务
         return taskService.deleteTaskById(id);
     }
 
     @DeleteMapping("/test/{testId:\\d+}/{taskId:\\d+}")
     @ApiOperation("删除测试任务服务")
     public int deleteTestTask(@PathVariable Long testId, @PathVariable Long taskId) {
+        // 因为一个开发任务只能让一个测试人员测试
+        // 因此删除测试任务需要把测试中的开发任务变为待分配
         return taskService.deleteTestTask(testId,taskId);
     }
+
+
 
     @PutMapping("/{taskId:\\d+}/codeId/{codeId:\\d+}")
     @ApiOperation("更新代码版本服务")

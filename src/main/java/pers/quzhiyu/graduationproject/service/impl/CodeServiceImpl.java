@@ -32,7 +32,7 @@ public class CodeServiceImpl implements CodeService {
     @Override
     @Transactional
     public int insertCode(Code code) {
-        Task t = new Task();
+        Task t = taskMapper.findTaskById(code.getTaskId());
         t.setStage(1L);
         t.setId(code.getTaskId());
         codeMapper.insertCode(code);

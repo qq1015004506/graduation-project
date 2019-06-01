@@ -27,4 +27,6 @@ public interface CodeMapper {
 
     @Select("SELECT * FROM `code` WHERE task_id = #{id}")
     List<Code> findAllCodeByTaskId(Long id);
+    @Delete("DELETE FROM `code` WHERE task_id = #{id}")
+    void deleteCodeByTaskId(Long id);
 }

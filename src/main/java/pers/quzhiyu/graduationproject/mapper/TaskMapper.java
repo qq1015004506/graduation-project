@@ -67,10 +67,14 @@ public interface TaskMapper {
 
     @UpdateProvider(type = TaskProvider.class, method = "checkOverdueTask")
     int checkOverdueTask(@Param("tasks") List<Task> tasks);
-    @Select("SELECT * FROM task WHERE start_time BETWEEN #{begin} AND #{end} OR end_time BETWEEN #{begin} AND #{end} ")
+
+    @Select("SELECT * FROM task WHERE start_time BETWEEN #{begin} AND #{end} OR end_time BETWEEN #{begin} AND #{end}  OR stage = 6")
     List<Task> findVisualDataByDate(@Param("begin") String begin, @Param("end") String end);
 
     @Select("SELECT * FROM task t, staff s " +
-            "WHERE t.staff_id = s.id AND (t.start_time BETWEEN #{begin} AND #{end} OR t.end_time BETWEEN #{begin} AND #{end}) AND s.id = #{id}")
+            "WHERE t.staff_id = s.id AND (t.start_time BETWEEN #{begin} AND #{end} OR t.end_time BETWEEN #{begin} AND #{end} OR stage = 6) AND s.id = #{id}")
     List<Task> findStaffVisualDataByDate(@Param("begin") String begin, @Param("end") String end, @Param("id") Long id);
+
+    @Delete("DELETE FROM task WHERE code_id = #{id} AND is_test = 1")
+    void deleteTestTaskByTaskId(@Param("id") Long id);
 }

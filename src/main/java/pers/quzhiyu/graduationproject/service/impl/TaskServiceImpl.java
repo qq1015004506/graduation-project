@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pers.quzhiyu.graduationproject.domain.Task;
 import pers.quzhiyu.graduationproject.dto.TaskInfo;
+import pers.quzhiyu.graduationproject.mapper.CodeMapper;
 import pers.quzhiyu.graduationproject.mapper.TaskMapper;
 import pers.quzhiyu.graduationproject.service.TaskService;
 
@@ -17,6 +18,9 @@ import java.util.List;
 public class TaskServiceImpl implements TaskService {
     @Autowired
     TaskMapper taskMapper;
+
+    @Autowired
+    CodeMapper codeMapper;
 
     @Override
     public List<TaskInfo> findAllTask() {
@@ -39,7 +43,12 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @Transactional
     public int deleteTaskById(Long id) {
+        //删除开发任务也需要删除对应的测试任务
+        taskMapper.deleteTestTaskByTaskId(id);
+        //也需要删除对应的源代码文件
+        codeMapper.deleteCodeByTaskId(id);
         return taskMapper.deleteTaskById(id);
     }
 
@@ -82,7 +91,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @Transactional
     public int createTestTask(Task task) {
-        Task t = new Task();
+        Task t = taskMapper.findTaskById(task.getCodeId());
         t.setId(task.getCodeId());
         t.setStage(3L);
         taskMapper.updateTask(t);
@@ -92,24 +101,27 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @Transactional
     public int deleteTestTask(Long testId, Long taskId) {
-        Task t = new Task();
-        t.setId(taskId);
+
         Task task = taskMapper.findTaskById(taskId);
-        if(task.getStage() == 3)
-            t.setStage(1L);
-        taskMapper.updateTask(t);
+        if(task.getStage() == 3) {
+            task.setStage(1L);
+            taskMapper.updateTask(task);
+        }
         return taskMapper.deleteTaskById(testId);
     }
 
     @Override
     @Transactional
     public int testResult(Task testTask) {
-        Task t = new Task();
-        t.setId(testTask.getCodeId());
+        System.out.println(testTask);
+        Task t = taskMapper.findTaskById(testTask.getCodeId());
         t.setStage(testTask.getStage());
-        testTask.setStage(5L);
+        t.setEvaluation(testTask.getEvaluation());
+
         taskMapper.updateTask(t);
-        return taskMapper.updateTask(testTask);
+        t = taskMapper.findTaskById(testTask.getId());
+        t.setStage(5L);
+        return taskMapper.updateTask(t);
     }
 
 
